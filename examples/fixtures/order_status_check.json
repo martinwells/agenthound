@@ -1,0 +1,104 @@
+{
+  "version": "1.0",
+  "recorded_at": "2026-03-21T10:05:00Z",
+  "tags": ["happy_path", "status_check"],
+  "metadata": {"agent": "support", "scenario": "order_status_inquiry"},
+  "exchanges": [
+    {
+      "request_url": "https://api.openai.com/v1/chat/completions",
+      "request_method": "POST",
+      "request_headers": {"content-type": "application/json", "authorization": "[REDACTED]"},
+      "request_body": {
+        "model": "gpt-4o-mini",
+        "messages": [
+          {"role": "system", "content": "You are a helpful customer support agent. Use the available tools to look up orders and process refunds. Be concise and professional."},
+          {"role": "user", "content": "Where is my order ORD-200?"}
+        ],
+        "tools": []
+      },
+      "response_status": 200,
+      "response_headers": {"content-type": "application/json"},
+      "response_body": {
+        "id": "chatcmpl-def001",
+        "object": "chat.completion",
+        "model": "gpt-4o-mini",
+        "choices": [{
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": null,
+            "tool_calls": [{
+              "id": "call_lookup_002",
+              "type": "function",
+              "function": {"name": "lookup_order", "arguments": "{\"order_id\": \"ORD-200\"}"}
+            }]
+          },
+          "finish_reason": "tool_calls"
+        }],
+        "usage": {"prompt_tokens": 160, "completion_tokens": 20, "total_tokens": 180}
+      },
+      "timestamp": "2026-03-21T10:05:01Z",
+      "duration_ms": 380.0
+    },
+    {
+      "request_url": "https://api.openai.com/v1/chat/completions",
+      "request_method": "POST",
+      "request_headers": {"content-type": "application/json", "authorization": "[REDACTED]"},
+      "request_body": {
+        "model": "gpt-4o-mini",
+        "messages": [
+          {"role": "system", "content": "You are a helpful customer support agent. Use the available tools to look up orders and process refunds. Be concise and professional."},
+          {"role": "user", "content": "Where is my order ORD-200?"},
+          {"role": "assistant", "content": null, "tool_calls": [{"id": "call_lookup_002", "type": "function", "function": {"name": "lookup_order", "arguments": "{\"order_id\": \"ORD-200\"}"}}]},
+          {"role": "tool", "tool_call_id": "call_lookup_002", "content": "{\"order_id\": \"ORD-200\", \"status\": \"shipped\", \"total\": 149.00, \"item\": \"Mechanical Keyboard\"}"}
+        ],
+        "tools": []
+      },
+      "response_status": 200,
+      "response_headers": {"content-type": "application/json"},
+      "response_body": {
+        "id": "chatcmpl-def002",
+        "object": "chat.completion",
+        "model": "gpt-4o-mini",
+        "choices": [{
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "Your order ORD-200 (Mechanical Keyboard, $149.00) is currently shipped and on its way to you. You should receive it within a few business days."
+          },
+          "finish_reason": "stop"
+        }],
+        "usage": {"prompt_tokens": 240, "completion_tokens": 38, "total_tokens": 278}
+      },
+      "timestamp": "2026-03-21T10:05:02Z",
+      "duration_ms": 350.0
+    }
+  ],
+  "llm_calls": [
+    {
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "messages_in": [],
+      "response": {},
+      "response_text": "",
+      "tool_calls": [{"tool_name": "lookup_order", "tool_call_id": "call_lookup_002", "arguments": {"order_id": "ORD-200"}, "result": null, "error": null}],
+      "usage": {"input_tokens": 160, "output_tokens": 20, "total_tokens": 180},
+      "duration_ms": 380.0,
+      "error": null,
+      "exchange_index": 0
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "messages_in": [],
+      "response": {},
+      "response_text": "Your order ORD-200 (Mechanical Keyboard, $149.00) is currently shipped and on its way to you. You should receive it within a few business days.",
+      "tool_calls": [],
+      "usage": {"input_tokens": 240, "output_tokens": 38, "total_tokens": 278},
+      "duration_ms": 350.0,
+      "error": null,
+      "exchange_index": 1
+    }
+  ],
+  "total_duration_ms": 730.0
+}

@@ -1,0 +1,105 @@
+{
+  "version": "1.0",
+  "recorded_at": "2026-03-21T11:00:00Z",
+  "tags": ["happy_path", "shipping"],
+  "metadata": {"agent": "support", "scenario": "shipping_status_inquiry"},
+  "exchanges": [
+    {
+      "request_url": "https://api.anthropic.com/v1/messages",
+      "request_method": "POST",
+      "request_headers": {"content-type": "application/json", "x-api-key": "[REDACTED]", "anthropic-version": "2023-06-01"},
+      "request_body": {
+        "model": "claude-haiku-4-5-20251001",
+        "max_tokens": 1024,
+        "system": "You are a helpful customer support agent. Use the available tools to look up orders and check shipping status. Be concise and professional.",
+        "messages": [
+          {"role": "user", "content": "Where is my order ORD-200?"}
+        ],
+        "tools": [
+          {"name": "lookup_order", "description": "Look up an order by ID", "input_schema": {"type": "object", "properties": {"order_id": {"type": "string"}}, "required": ["order_id"]}}
+        ]
+      },
+      "response_status": 200,
+      "response_headers": {"content-type": "application/json"},
+      "response_body": {
+        "id": "msg_01ABC123",
+        "type": "message",
+        "role": "assistant",
+        "model": "claude-haiku-4-5-20251001",
+        "content": [
+          {"type": "text", "text": "Let me look up your order for you."},
+          {"type": "tool_use", "id": "toolu_01ABC123", "name": "lookup_order", "input": {"order_id": "ORD-200"}}
+        ],
+        "stop_reason": "tool_use",
+        "usage": {"input_tokens": 195, "output_tokens": 48}
+      },
+      "timestamp": "2026-03-21T11:00:01Z",
+      "duration_ms": 320.0
+    },
+    {
+      "request_url": "https://api.anthropic.com/v1/messages",
+      "request_method": "POST",
+      "request_headers": {"content-type": "application/json", "x-api-key": "[REDACTED]", "anthropic-version": "2023-06-01"},
+      "request_body": {
+        "model": "claude-haiku-4-5-20251001",
+        "max_tokens": 1024,
+        "system": "You are a helpful customer support agent. Use the available tools to look up orders and check shipping status. Be concise and professional.",
+        "messages": [
+          {"role": "user", "content": "Where is my order ORD-200?"},
+          {"role": "assistant", "content": [
+            {"type": "text", "text": "Let me look up your order for you."},
+            {"type": "tool_use", "id": "toolu_01ABC123", "name": "lookup_order", "input": {"order_id": "ORD-200"}}
+          ]},
+          {"role": "user", "content": [
+            {"type": "tool_result", "tool_use_id": "toolu_01ABC123", "content": "{\"order_id\": \"ORD-200\", \"status\": \"shipped\", \"total\": 149.00, \"item\": \"Mechanical Keyboard\", \"tracking_number\": \"1Z999AA10123456784\", \"carrier\": \"UPS\", \"estimated_delivery\": \"2026-03-23\"}"}
+          ]}
+        ],
+        "tools": [
+          {"name": "lookup_order", "description": "Look up an order by ID", "input_schema": {"type": "object", "properties": {"order_id": {"type": "string"}}, "required": ["order_id"]}}
+        ]
+      },
+      "response_status": 200,
+      "response_headers": {"content-type": "application/json"},
+      "response_body": {
+        "id": "msg_01ABC124",
+        "type": "message",
+        "role": "assistant",
+        "model": "claude-haiku-4-5-20251001",
+        "content": [
+          {"type": "text", "text": "Your order ORD-200 (Mechanical Keyboard, $149.00) has been shipped via UPS. Your tracking number is 1Z999AA10123456784, and the estimated delivery date is March 23, 2026. You can track your package on the UPS website using that tracking number."}
+        ],
+        "stop_reason": "end_turn",
+        "usage": {"input_tokens": 310, "output_tokens": 62}
+      },
+      "timestamp": "2026-03-21T11:00:02Z",
+      "duration_ms": 410.0
+    }
+  ],
+  "llm_calls": [
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "messages_in": [],
+      "response": {},
+      "response_text": "Let me look up your order for you.",
+      "tool_calls": [{"tool_name": "lookup_order", "tool_call_id": "toolu_01ABC123", "arguments": {"order_id": "ORD-200"}, "result": null, "error": null}],
+      "usage": {"input_tokens": 195, "output_tokens": 48, "total_tokens": 243},
+      "duration_ms": 320.0,
+      "error": null,
+      "exchange_index": 0
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "messages_in": [],
+      "response": {},
+      "response_text": "Your order ORD-200 (Mechanical Keyboard, $149.00) has been shipped via UPS. Your tracking number is 1Z999AA10123456784, and the estimated delivery date is March 23, 2026. You can track your package on the UPS website using that tracking number.",
+      "tool_calls": [],
+      "usage": {"input_tokens": 310, "output_tokens": 62, "total_tokens": 372},
+      "duration_ms": 410.0,
+      "error": null,
+      "exchange_index": 1
+    }
+  ],
+  "total_duration_ms": 730.0
+}

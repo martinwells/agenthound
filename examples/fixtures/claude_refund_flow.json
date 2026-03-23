@@ -1,0 +1,166 @@
+{
+  "version": "1.0",
+  "recorded_at": "2026-03-22T09:00:00Z",
+  "tags": ["happy_path", "refund"],
+  "metadata": {"agent": "support", "scenario": "anthropic_refund_delivered_order"},
+  "exchanges": [
+    {
+      "request_url": "https://api.anthropic.com/v1/messages",
+      "request_method": "POST",
+      "request_headers": {"content-type": "application/json", "x-api-key": "[REDACTED]", "anthropic-version": "2023-06-01"},
+      "request_body": {
+        "model": "claude-sonnet-4-20250514",
+        "max_tokens": 1024,
+        "system": "You are a helpful customer support agent. Use the available tools to look up orders and process refunds. Be concise and professional.",
+        "messages": [
+          {"role": "user", "content": "Hi, I'd like to return order ORD-100 please."}
+        ],
+        "tools": [
+          {"name": "lookup_order", "description": "Look up an order by its ID", "input_schema": {"type": "object", "properties": {"order_id": {"type": "string"}}, "required": ["order_id"]}},
+          {"name": "process_refund", "description": "Process a refund for a delivered order", "input_schema": {"type": "object", "properties": {"order_id": {"type": "string"}, "amount": {"type": "number"}}, "required": ["order_id", "amount"]}}
+        ]
+      },
+      "response_status": 200,
+      "response_headers": {"content-type": "application/json"},
+      "response_body": {
+        "id": "msg_01DEF456",
+        "type": "message",
+        "role": "assistant",
+        "model": "claude-sonnet-4-20250514",
+        "content": [
+          {"type": "text", "text": "I'll look up that order for you right away."},
+          {"type": "tool_use", "id": "toolu_01DEF456", "name": "lookup_order", "input": {"order_id": "ORD-100"}}
+        ],
+        "stop_reason": "tool_use",
+        "usage": {"input_tokens": 245, "output_tokens": 55}
+      },
+      "timestamp": "2026-03-22T09:00:01Z",
+      "duration_ms": 580.0
+    },
+    {
+      "request_url": "https://api.anthropic.com/v1/messages",
+      "request_method": "POST",
+      "request_headers": {"content-type": "application/json", "x-api-key": "[REDACTED]", "anthropic-version": "2023-06-01"},
+      "request_body": {
+        "model": "claude-sonnet-4-20250514",
+        "max_tokens": 1024,
+        "system": "You are a helpful customer support agent. Use the available tools to look up orders and process refunds. Be concise and professional.",
+        "messages": [
+          {"role": "user", "content": "Hi, I'd like to return order ORD-100 please."},
+          {"role": "assistant", "content": [
+            {"type": "text", "text": "I'll look up that order for you right away."},
+            {"type": "tool_use", "id": "toolu_01DEF456", "name": "lookup_order", "input": {"order_id": "ORD-100"}}
+          ]},
+          {"role": "user", "content": [
+            {"type": "tool_result", "tool_use_id": "toolu_01DEF456", "content": "{\"order_id\": \"ORD-100\", \"status\": \"delivered\", \"total\": 29.99, \"item\": \"Wireless Mouse\", \"delivered_at\": \"2026-03-18\"}"}
+          ]}
+        ],
+        "tools": [
+          {"name": "lookup_order", "description": "Look up an order by its ID", "input_schema": {"type": "object", "properties": {"order_id": {"type": "string"}}, "required": ["order_id"]}},
+          {"name": "process_refund", "description": "Process a refund for a delivered order", "input_schema": {"type": "object", "properties": {"order_id": {"type": "string"}, "amount": {"type": "number"}}, "required": ["order_id", "amount"]}}
+        ]
+      },
+      "response_status": 200,
+      "response_headers": {"content-type": "application/json"},
+      "response_body": {
+        "id": "msg_01DEF457",
+        "type": "message",
+        "role": "assistant",
+        "model": "claude-sonnet-4-20250514",
+        "content": [
+          {"type": "text", "text": "I found your order. Let me process the refund for the Wireless Mouse."},
+          {"type": "tool_use", "id": "toolu_01DEF457", "name": "process_refund", "input": {"order_id": "ORD-100", "amount": 29.99}}
+        ],
+        "stop_reason": "tool_use",
+        "usage": {"input_tokens": 370, "output_tokens": 62}
+      },
+      "timestamp": "2026-03-22T09:00:02Z",
+      "duration_ms": 650.0
+    },
+    {
+      "request_url": "https://api.anthropic.com/v1/messages",
+      "request_method": "POST",
+      "request_headers": {"content-type": "application/json", "x-api-key": "[REDACTED]", "anthropic-version": "2023-06-01"},
+      "request_body": {
+        "model": "claude-sonnet-4-20250514",
+        "max_tokens": 1024,
+        "system": "You are a helpful customer support agent. Use the available tools to look up orders and process refunds. Be concise and professional.",
+        "messages": [
+          {"role": "user", "content": "Hi, I'd like to return order ORD-100 please."},
+          {"role": "assistant", "content": [
+            {"type": "text", "text": "I'll look up that order for you right away."},
+            {"type": "tool_use", "id": "toolu_01DEF456", "name": "lookup_order", "input": {"order_id": "ORD-100"}}
+          ]},
+          {"role": "user", "content": [
+            {"type": "tool_result", "tool_use_id": "toolu_01DEF456", "content": "{\"order_id\": \"ORD-100\", \"status\": \"delivered\", \"total\": 29.99, \"item\": \"Wireless Mouse\", \"delivered_at\": \"2026-03-18\"}"}
+          ]},
+          {"role": "assistant", "content": [
+            {"type": "text", "text": "I found your order. Let me process the refund for the Wireless Mouse."},
+            {"type": "tool_use", "id": "toolu_01DEF457", "name": "process_refund", "input": {"order_id": "ORD-100", "amount": 29.99}}
+          ]},
+          {"role": "user", "content": [
+            {"type": "tool_result", "tool_use_id": "toolu_01DEF457", "content": "{\"success\": true, \"refund_id\": \"REF-200\", \"amount\": 29.99}"}
+          ]}
+        ],
+        "tools": [
+          {"name": "lookup_order", "description": "Look up an order by its ID", "input_schema": {"type": "object", "properties": {"order_id": {"type": "string"}}, "required": ["order_id"]}},
+          {"name": "process_refund", "description": "Process a refund for a delivered order", "input_schema": {"type": "object", "properties": {"order_id": {"type": "string"}, "amount": {"type": "number"}}, "required": ["order_id", "amount"]}}
+        ]
+      },
+      "response_status": 200,
+      "response_headers": {"content-type": "application/json"},
+      "response_body": {
+        "id": "msg_01DEF458",
+        "type": "message",
+        "role": "assistant",
+        "model": "claude-sonnet-4-20250514",
+        "content": [
+          {"type": "text", "text": "Your refund has been processed successfully. Here are the details:\n\n- Order: ORD-100 (Wireless Mouse)\n- Refund amount: $29.99\n- Refund reference: REF-200\n\nYou should see the refund credited to your original payment method within 5-7 business days. Is there anything else I can help you with?"}
+        ],
+        "stop_reason": "end_turn",
+        "usage": {"input_tokens": 480, "output_tokens": 78}
+      },
+      "timestamp": "2026-03-22T09:00:04Z",
+      "duration_ms": 710.0
+    }
+  ],
+  "llm_calls": [
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-20250514",
+      "messages_in": [],
+      "response": {},
+      "response_text": "I'll look up that order for you right away.",
+      "tool_calls": [{"tool_name": "lookup_order", "tool_call_id": "toolu_01DEF456", "arguments": {"order_id": "ORD-100"}, "result": null, "error": null}],
+      "usage": {"input_tokens": 245, "output_tokens": 55, "total_tokens": 300},
+      "duration_ms": 580.0,
+      "error": null,
+      "exchange_index": 0
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-20250514",
+      "messages_in": [],
+      "response": {},
+      "response_text": "I found your order. Let me process the refund for the Wireless Mouse.",
+      "tool_calls": [{"tool_name": "process_refund", "tool_call_id": "toolu_01DEF457", "arguments": {"order_id": "ORD-100", "amount": 29.99}, "result": null, "error": null}],
+      "usage": {"input_tokens": 370, "output_tokens": 62, "total_tokens": 432},
+      "duration_ms": 650.0,
+      "error": null,
+      "exchange_index": 1
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-20250514",
+      "messages_in": [],
+      "response": {},
+      "response_text": "Your refund has been processed successfully. Here are the details:\n\n- Order: ORD-100 (Wireless Mouse)\n- Refund amount: $29.99\n- Refund reference: REF-200\n\nYou should see the refund credited to your original payment method within 5-7 business days. Is there anything else I can help you with?",
+      "tool_calls": [],
+      "usage": {"input_tokens": 480, "output_tokens": 78, "total_tokens": 558},
+      "duration_ms": 710.0,
+      "error": null,
+      "exchange_index": 2
+    }
+  ],
+  "total_duration_ms": 1940.0
+}

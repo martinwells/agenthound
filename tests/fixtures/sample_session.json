@@ -1,0 +1,196 @@
+{
+  "version": "1.0",
+  "recorded_at": "2026-03-20T12:00:00Z",
+  "tags": ["happy_path", "refund"],
+  "metadata": {"test_id": "refund-001"},
+  "exchanges": [
+    {
+      "request_url": "https://api.openai.com/v1/chat/completions",
+      "request_method": "POST",
+      "request_headers": {"content-type": "application/json", "authorization": "[REDACTED]"},
+      "request_body": {
+        "model": "gpt-4o-mini",
+        "messages": [
+          {"role": "system", "content": "You are a customer support agent."},
+          {"role": "user", "content": "I want to return order ORD-123"}
+        ],
+        "tools": [
+          {"type": "function", "function": {"name": "lookup_order", "parameters": {}}},
+          {"type": "function", "function": {"name": "process_refund", "parameters": {}}}
+        ]
+      },
+      "response_status": 200,
+      "response_headers": {"content-type": "application/json"},
+      "response_body": {
+        "id": "chatcmpl-abc123",
+        "object": "chat.completion",
+        "model": "gpt-4o-mini",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": null,
+              "tool_calls": [
+                {
+                  "id": "call_001",
+                  "type": "function",
+                  "function": {
+                    "name": "lookup_order",
+                    "arguments": "{\"order_id\": \"ORD-123\"}"
+                  }
+                }
+              ]
+            },
+            "finish_reason": "tool_calls"
+          }
+        ],
+        "usage": {"prompt_tokens": 150, "completion_tokens": 25, "total_tokens": 175}
+      },
+      "timestamp": "2026-03-20T12:00:01Z",
+      "duration_ms": 450.0
+    },
+    {
+      "request_url": "https://api.openai.com/v1/chat/completions",
+      "request_method": "POST",
+      "request_headers": {"content-type": "application/json", "authorization": "[REDACTED]"},
+      "request_body": {
+        "model": "gpt-4o-mini",
+        "messages": [
+          {"role": "system", "content": "You are a customer support agent."},
+          {"role": "user", "content": "I want to return order ORD-123"},
+          {"role": "assistant", "content": null, "tool_calls": [{"id": "call_001", "type": "function", "function": {"name": "lookup_order", "arguments": "{\"order_id\": \"ORD-123\"}"}}]},
+          {"role": "tool", "tool_call_id": "call_001", "content": "{\"status\": \"delivered\", \"total\": 49.99}"}
+        ],
+        "tools": [
+          {"type": "function", "function": {"name": "lookup_order", "parameters": {}}},
+          {"type": "function", "function": {"name": "process_refund", "parameters": {}}}
+        ]
+      },
+      "response_status": 200,
+      "response_headers": {"content-type": "application/json"},
+      "response_body": {
+        "id": "chatcmpl-abc124",
+        "object": "chat.completion",
+        "model": "gpt-4o-mini",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": null,
+              "tool_calls": [
+                {
+                  "id": "call_002",
+                  "type": "function",
+                  "function": {
+                    "name": "process_refund",
+                    "arguments": "{\"order_id\": \"ORD-123\", \"amount\": 49.99}"
+                  }
+                }
+              ]
+            },
+            "finish_reason": "tool_calls"
+          }
+        ],
+        "usage": {"prompt_tokens": 250, "completion_tokens": 30, "total_tokens": 280}
+      },
+      "timestamp": "2026-03-20T12:00:02Z",
+      "duration_ms": 520.0
+    },
+    {
+      "request_url": "https://api.openai.com/v1/chat/completions",
+      "request_method": "POST",
+      "request_headers": {"content-type": "application/json", "authorization": "[REDACTED]"},
+      "request_body": {
+        "model": "gpt-4o-mini",
+        "messages": [
+          {"role": "system", "content": "You are a customer support agent."},
+          {"role": "user", "content": "I want to return order ORD-123"},
+          {"role": "assistant", "content": null, "tool_calls": [{"id": "call_001", "type": "function", "function": {"name": "lookup_order", "arguments": "{\"order_id\": \"ORD-123\"}"}}]},
+          {"role": "tool", "tool_call_id": "call_001", "content": "{\"status\": \"delivered\", \"total\": 49.99}"},
+          {"role": "assistant", "content": null, "tool_calls": [{"id": "call_002", "type": "function", "function": {"name": "process_refund", "arguments": "{\"order_id\": \"ORD-123\", \"amount\": 49.99}"}}]},
+          {"role": "tool", "tool_call_id": "call_002", "content": "{\"success\": true, \"refund_id\": \"REF-456\"}"}
+        ]
+      },
+      "response_status": 200,
+      "response_headers": {"content-type": "application/json"},
+      "response_body": {
+        "id": "chatcmpl-abc125",
+        "object": "chat.completion",
+        "model": "gpt-4o-mini",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "Your refund for order ORD-123 has been processed successfully. You'll receive $49.99 back to your original payment method within 5-7 business days. Your refund reference number is REF-456."
+            },
+            "finish_reason": "stop"
+          }
+        ],
+        "usage": {"prompt_tokens": 350, "completion_tokens": 45, "total_tokens": 395}
+      },
+      "timestamp": "2026-03-20T12:00:03Z",
+      "duration_ms": 380.0
+    }
+  ],
+  "llm_calls": [
+    {
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "messages_in": [
+        {"role": "system", "content": "You are a customer support agent."},
+        {"role": "user", "content": "I want to return order ORD-123"}
+      ],
+      "response": {},
+      "response_text": "",
+      "tool_calls": [
+        {
+          "tool_name": "lookup_order",
+          "tool_call_id": "call_001",
+          "arguments": {"order_id": "ORD-123"},
+          "result": null,
+          "error": null
+        }
+      ],
+      "usage": {"input_tokens": 150, "output_tokens": 25, "total_tokens": 175 },
+      "duration_ms": 450.0,
+      "error": null,
+      "exchange_index": 0
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "messages_in": [],
+      "response": {},
+      "response_text": "",
+      "tool_calls": [
+        {
+          "tool_name": "process_refund",
+          "tool_call_id": "call_002",
+          "arguments": {"order_id": "ORD-123", "amount": 49.99},
+          "result": null,
+          "error": null
+        }
+      ],
+      "usage": {"input_tokens": 250, "output_tokens": 30, "total_tokens": 280 },
+      "duration_ms": 520.0,
+      "error": null,
+      "exchange_index": 1
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "messages_in": [],
+      "response": {},
+      "response_text": "Your refund for order ORD-123 has been processed successfully. You'll receive $49.99 back to your original payment method within 5-7 business days. Your refund reference number is REF-456.",
+      "tool_calls": [],
+      "usage": {"input_tokens": 350, "output_tokens": 45, "total_tokens": 395 },
+      "duration_ms": 380.0,
+      "error": null,
+      "exchange_index": 2
+    }
+  ],
+  "total_duration_ms": 1350.0
+}

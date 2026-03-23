@@ -1,0 +1,327 @@
+{
+  "version": "1.0",
+  "recorded_at": "2026-03-22T11:30:00Z",
+  "tags": ["multi_turn", "refund", "status_check"],
+  "metadata": {"agent": "support", "scenario": "multi_turn_status_then_refund"},
+  "exchanges": [
+    {
+      "request_url": "https://api.openai.com/v1/chat/completions",
+      "request_method": "POST",
+      "request_headers": {"content-type": "application/json", "authorization": "[REDACTED]"},
+      "request_body": {
+        "model": "gpt-4o",
+        "messages": [
+          {"role": "system", "content": "You are a helpful customer support agent. Use the available tools to look up orders and process refunds. Be concise and professional."},
+          {"role": "user", "content": "Hi, I placed an order recently and I'm not sure if it arrived yet. The order number is ORD-500."}
+        ],
+        "tools": [
+          {"type": "function", "function": {"name": "lookup_order", "parameters": {"type": "object", "properties": {"order_id": {"type": "string"}}, "required": ["order_id"]}}},
+          {"type": "function", "function": {"name": "process_refund", "parameters": {"type": "object", "properties": {"order_id": {"type": "string"}, "amount": {"type": "number"}}, "required": ["order_id", "amount"]}}}
+        ]
+      },
+      "response_status": 200,
+      "response_headers": {"content-type": "application/json"},
+      "response_body": {
+        "id": "chatcmpl-pqr001",
+        "object": "chat.completion",
+        "model": "gpt-4o",
+        "choices": [{
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": null,
+            "tool_calls": [{
+              "id": "call_lookup_040",
+              "type": "function",
+              "function": {"name": "lookup_order", "arguments": "{\"order_id\": \"ORD-500\"}"}
+            }]
+          },
+          "finish_reason": "tool_calls"
+        }],
+        "usage": {"prompt_tokens": 210, "completion_tokens": 22, "total_tokens": 232}
+      },
+      "timestamp": "2026-03-22T11:30:01Z",
+      "duration_ms": 510.0
+    },
+    {
+      "request_url": "https://api.openai.com/v1/chat/completions",
+      "request_method": "POST",
+      "request_headers": {"content-type": "application/json", "authorization": "[REDACTED]"},
+      "request_body": {
+        "model": "gpt-4o",
+        "messages": [
+          {"role": "system", "content": "You are a helpful customer support agent. Use the available tools to look up orders and process refunds. Be concise and professional."},
+          {"role": "user", "content": "Hi, I placed an order recently and I'm not sure if it arrived yet. The order number is ORD-500."},
+          {"role": "assistant", "content": null, "tool_calls": [{"id": "call_lookup_040", "type": "function", "function": {"name": "lookup_order", "arguments": "{\"order_id\": \"ORD-500\"}"}}]},
+          {"role": "tool", "tool_call_id": "call_lookup_040", "content": "{\"order_id\": \"ORD-500\", \"status\": \"delivered\", \"total\": 199.99, \"item\": \"Noise-Canceling Headphones\", \"delivered_at\": \"2026-03-19\"}"}
+        ],
+        "tools": [
+          {"type": "function", "function": {"name": "lookup_order", "parameters": {"type": "object", "properties": {"order_id": {"type": "string"}}, "required": ["order_id"]}}},
+          {"type": "function", "function": {"name": "process_refund", "parameters": {"type": "object", "properties": {"order_id": {"type": "string"}, "amount": {"type": "number"}}, "required": ["order_id", "amount"]}}}
+        ]
+      },
+      "response_status": 200,
+      "response_headers": {"content-type": "application/json"},
+      "response_body": {
+        "id": "chatcmpl-pqr002",
+        "object": "chat.completion",
+        "model": "gpt-4o",
+        "choices": [{
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "Your order ORD-500 (Noise-Canceling Headphones, $199.99) was delivered on March 19, 2026. It should be at your delivery address. If you haven't received it, please check with your neighbors or building management. Is there anything else I can help with?"
+          },
+          "finish_reason": "stop"
+        }],
+        "usage": {"prompt_tokens": 320, "completion_tokens": 58, "total_tokens": 378}
+      },
+      "timestamp": "2026-03-22T11:30:02Z",
+      "duration_ms": 620.0
+    },
+    {
+      "request_url": "https://api.openai.com/v1/chat/completions",
+      "request_method": "POST",
+      "request_headers": {"content-type": "application/json", "authorization": "[REDACTED]"},
+      "request_body": {
+        "model": "gpt-4o",
+        "messages": [
+          {"role": "system", "content": "You are a helpful customer support agent. Use the available tools to look up orders and process refunds. Be concise and professional."},
+          {"role": "user", "content": "Hi, I placed an order recently and I'm not sure if it arrived yet. The order number is ORD-500."},
+          {"role": "assistant", "content": null, "tool_calls": [{"id": "call_lookup_040", "type": "function", "function": {"name": "lookup_order", "arguments": "{\"order_id\": \"ORD-500\"}"}}]},
+          {"role": "tool", "tool_call_id": "call_lookup_040", "content": "{\"order_id\": \"ORD-500\", \"status\": \"delivered\", \"total\": 199.99, \"item\": \"Noise-Canceling Headphones\", \"delivered_at\": \"2026-03-19\"}"},
+          {"role": "assistant", "content": "Your order ORD-500 (Noise-Canceling Headphones, $199.99) was delivered on March 19, 2026. It should be at your delivery address. If you haven't received it, please check with your neighbors or building management. Is there anything else I can help with?"},
+          {"role": "user", "content": "Oh I see, I did get it. But actually the sound quality isn't great. Can I get a refund?"}
+        ],
+        "tools": [
+          {"type": "function", "function": {"name": "lookup_order", "parameters": {"type": "object", "properties": {"order_id": {"type": "string"}}, "required": ["order_id"]}}},
+          {"type": "function", "function": {"name": "process_refund", "parameters": {"type": "object", "properties": {"order_id": {"type": "string"}, "amount": {"type": "number"}}, "required": ["order_id", "amount"]}}}
+        ]
+      },
+      "response_status": 200,
+      "response_headers": {"content-type": "application/json"},
+      "response_body": {
+        "id": "chatcmpl-pqr003",
+        "object": "chat.completion",
+        "model": "gpt-4o",
+        "choices": [{
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "I'm sorry to hear the headphones didn't meet your expectations. Since the order has been delivered, I can process a refund for you. Let me take care of that now.",
+            "tool_calls": [{
+              "id": "call_refund_040",
+              "type": "function",
+              "function": {"name": "process_refund", "arguments": "{\"order_id\": \"ORD-500\", \"amount\": 199.99}"}
+            }]
+          },
+          "finish_reason": "tool_calls"
+        }],
+        "usage": {"prompt_tokens": 450, "completion_tokens": 65, "total_tokens": 515}
+      },
+      "timestamp": "2026-03-22T11:30:04Z",
+      "duration_ms": 780.0
+    },
+    {
+      "request_url": "https://api.openai.com/v1/chat/completions",
+      "request_method": "POST",
+      "request_headers": {"content-type": "application/json", "authorization": "[REDACTED]"},
+      "request_body": {
+        "model": "gpt-4o",
+        "messages": [
+          {"role": "system", "content": "You are a helpful customer support agent. Use the available tools to look up orders and process refunds. Be concise and professional."},
+          {"role": "user", "content": "Hi, I placed an order recently and I'm not sure if it arrived yet. The order number is ORD-500."},
+          {"role": "assistant", "content": null, "tool_calls": [{"id": "call_lookup_040", "type": "function", "function": {"name": "lookup_order", "arguments": "{\"order_id\": \"ORD-500\"}"}}]},
+          {"role": "tool", "tool_call_id": "call_lookup_040", "content": "{\"order_id\": \"ORD-500\", \"status\": \"delivered\", \"total\": 199.99, \"item\": \"Noise-Canceling Headphones\", \"delivered_at\": \"2026-03-19\"}"},
+          {"role": "assistant", "content": "Your order ORD-500 (Noise-Canceling Headphones, $199.99) was delivered on March 19, 2026. It should be at your delivery address. If you haven't received it, please check with your neighbors or building management. Is there anything else I can help with?"},
+          {"role": "user", "content": "Oh I see, I did get it. But actually the sound quality isn't great. Can I get a refund?"},
+          {"role": "assistant", "content": "I'm sorry to hear the headphones didn't meet your expectations. Since the order has been delivered, I can process a refund for you. Let me take care of that now.", "tool_calls": [{"id": "call_refund_040", "type": "function", "function": {"name": "process_refund", "arguments": "{\"order_id\": \"ORD-500\", \"amount\": 199.99}"}}]},
+          {"role": "tool", "tool_call_id": "call_refund_040", "content": "{\"success\": true, \"refund_id\": \"REF-500\", \"amount\": 199.99}"}
+        ],
+        "tools": [
+          {"type": "function", "function": {"name": "lookup_order", "parameters": {"type": "object", "properties": {"order_id": {"type": "string"}}, "required": ["order_id"]}}},
+          {"type": "function", "function": {"name": "process_refund", "parameters": {"type": "object", "properties": {"order_id": {"type": "string"}, "amount": {"type": "number"}}, "required": ["order_id", "amount"]}}}
+        ]
+      },
+      "response_status": 200,
+      "response_headers": {"content-type": "application/json"},
+      "response_body": {
+        "id": "chatcmpl-pqr004",
+        "object": "chat.completion",
+        "model": "gpt-4o",
+        "choices": [{
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "Great news — your refund has been processed! Here's a summary:\n\n- Order: ORD-500 (Noise-Canceling Headphones)\n- Refund amount: $199.99\n- Reference number: REF-500\n\nYou'll receive the refund to your original payment method within 5-7 business days. Would you like help with anything else?"
+          },
+          "finish_reason": "stop"
+        }],
+        "usage": {"prompt_tokens": 520, "completion_tokens": 72, "total_tokens": 592}
+      },
+      "timestamp": "2026-03-22T11:30:05Z",
+      "duration_ms": 690.0
+    },
+    {
+      "request_url": "https://api.openai.com/v1/chat/completions",
+      "request_method": "POST",
+      "request_headers": {"content-type": "application/json", "authorization": "[REDACTED]"},
+      "request_body": {
+        "model": "gpt-4o",
+        "messages": [
+          {"role": "system", "content": "You are a helpful customer support agent. Use the available tools to look up orders and process refunds. Be concise and professional."},
+          {"role": "user", "content": "Hi, I placed an order recently and I'm not sure if it arrived yet. The order number is ORD-500."},
+          {"role": "assistant", "content": null, "tool_calls": [{"id": "call_lookup_040", "type": "function", "function": {"name": "lookup_order", "arguments": "{\"order_id\": \"ORD-500\"}"}}]},
+          {"role": "tool", "tool_call_id": "call_lookup_040", "content": "{\"order_id\": \"ORD-500\", \"status\": \"delivered\", \"total\": 199.99, \"item\": \"Noise-Canceling Headphones\", \"delivered_at\": \"2026-03-19\"}"},
+          {"role": "assistant", "content": "Your order ORD-500 (Noise-Canceling Headphones, $199.99) was delivered on March 19, 2026. It should be at your delivery address. If you haven't received it, please check with your neighbors or building management. Is there anything else I can help with?"},
+          {"role": "user", "content": "Oh I see, I did get it. But actually the sound quality isn't great. Can I get a refund?"},
+          {"role": "assistant", "content": "I'm sorry to hear the headphones didn't meet your expectations. Since the order has been delivered, I can process a refund for you. Let me take care of that now.", "tool_calls": [{"id": "call_refund_040", "type": "function", "function": {"name": "process_refund", "arguments": "{\"order_id\": \"ORD-500\", \"amount\": 199.99}"}}]},
+          {"role": "tool", "tool_call_id": "call_refund_040", "content": "{\"success\": true, \"refund_id\": \"REF-500\", \"amount\": 199.99}"},
+          {"role": "assistant", "content": "Great news — your refund has been processed! Here's a summary:\n\n- Order: ORD-500 (Noise-Canceling Headphones)\n- Refund amount: $199.99\n- Reference number: REF-500\n\nYou'll receive the refund to your original payment method within 5-7 business days. Would you like help with anything else?"},
+          {"role": "user", "content": "Actually yes — do I need to ship the headphones back?"}
+        ],
+        "tools": [
+          {"type": "function", "function": {"name": "lookup_order", "parameters": {"type": "object", "properties": {"order_id": {"type": "string"}}, "required": ["order_id"]}}},
+          {"type": "function", "function": {"name": "process_refund", "parameters": {"type": "object", "properties": {"order_id": {"type": "string"}, "amount": {"type": "number"}}, "required": ["order_id", "amount"]}}}
+        ]
+      },
+      "response_status": 200,
+      "response_headers": {"content-type": "application/json"},
+      "response_body": {
+        "id": "chatcmpl-pqr005",
+        "object": "chat.completion",
+        "model": "gpt-4o",
+        "choices": [{
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "Yes, you will need to return the headphones. You should receive a prepaid return shipping label via email within the next 24 hours. Once you have the label, simply pack the headphones in their original packaging and drop off the package at any UPS location. The return must be shipped within 14 days."
+          },
+          "finish_reason": "stop"
+        }],
+        "usage": {"prompt_tokens": 610, "completion_tokens": 60, "total_tokens": 670}
+      },
+      "timestamp": "2026-03-22T11:30:07Z",
+      "duration_ms": 550.0
+    },
+    {
+      "request_url": "https://api.openai.com/v1/chat/completions",
+      "request_method": "POST",
+      "request_headers": {"content-type": "application/json", "authorization": "[REDACTED]"},
+      "request_body": {
+        "model": "gpt-4o",
+        "messages": [
+          {"role": "system", "content": "You are a helpful customer support agent. Use the available tools to look up orders and process refunds. Be concise and professional."},
+          {"role": "user", "content": "Hi, I placed an order recently and I'm not sure if it arrived yet. The order number is ORD-500."},
+          {"role": "assistant", "content": null, "tool_calls": [{"id": "call_lookup_040", "type": "function", "function": {"name": "lookup_order", "arguments": "{\"order_id\": \"ORD-500\"}"}}]},
+          {"role": "tool", "tool_call_id": "call_lookup_040", "content": "{\"order_id\": \"ORD-500\", \"status\": \"delivered\", \"total\": 199.99, \"item\": \"Noise-Canceling Headphones\", \"delivered_at\": \"2026-03-19\"}"},
+          {"role": "assistant", "content": "Your order ORD-500 (Noise-Canceling Headphones, $199.99) was delivered on March 19, 2026. It should be at your delivery address. If you haven't received it, please check with your neighbors or building management. Is there anything else I can help with?"},
+          {"role": "user", "content": "Oh I see, I did get it. But actually the sound quality isn't great. Can I get a refund?"},
+          {"role": "assistant", "content": "I'm sorry to hear the headphones didn't meet your expectations. Since the order has been delivered, I can process a refund for you. Let me take care of that now.", "tool_calls": [{"id": "call_refund_040", "type": "function", "function": {"name": "process_refund", "arguments": "{\"order_id\": \"ORD-500\", \"amount\": 199.99}"}}]},
+          {"role": "tool", "tool_call_id": "call_refund_040", "content": "{\"success\": true, \"refund_id\": \"REF-500\", \"amount\": 199.99}"},
+          {"role": "assistant", "content": "Great news — your refund has been processed! Here's a summary:\n\n- Order: ORD-500 (Noise-Canceling Headphones)\n- Refund amount: $199.99\n- Reference number: REF-500\n\nYou'll receive the refund to your original payment method within 5-7 business days. Would you like help with anything else?"},
+          {"role": "user", "content": "Actually yes — do I need to ship the headphones back?"},
+          {"role": "assistant", "content": "Yes, you will need to return the headphones. You should receive a prepaid return shipping label via email within the next 24 hours. Once you have the label, simply pack the headphones in their original packaging and drop off the package at any UPS location. The return must be shipped within 14 days."},
+          {"role": "user", "content": "Perfect, thanks for the help!"}
+        ],
+        "tools": [
+          {"type": "function", "function": {"name": "lookup_order", "parameters": {"type": "object", "properties": {"order_id": {"type": "string"}}, "required": ["order_id"]}}},
+          {"type": "function", "function": {"name": "process_refund", "parameters": {"type": "object", "properties": {"order_id": {"type": "string"}, "amount": {"type": "number"}}, "required": ["order_id", "amount"]}}}
+        ]
+      },
+      "response_status": 200,
+      "response_headers": {"content-type": "application/json"},
+      "response_body": {
+        "id": "chatcmpl-pqr006",
+        "object": "chat.completion",
+        "model": "gpt-4o",
+        "choices": [{
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "You're welcome! To recap: your refund of $199.99 (REF-500) is being processed, and you'll get a return label by email shortly. If you have any other questions, don't hesitate to reach out. Have a great day!"
+          },
+          "finish_reason": "stop"
+        }],
+        "usage": {"prompt_tokens": 690, "completion_tokens": 50, "total_tokens": 740}
+      },
+      "timestamp": "2026-03-22T11:30:08Z",
+      "duration_ms": 480.0
+    }
+  ],
+  "llm_calls": [
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "messages_in": [],
+      "response": {},
+      "response_text": "",
+      "tool_calls": [{"tool_name": "lookup_order", "tool_call_id": "call_lookup_040", "arguments": {"order_id": "ORD-500"}, "result": null, "error": null}],
+      "usage": {"input_tokens": 210, "output_tokens": 22, "total_tokens": 232},
+      "duration_ms": 510.0,
+      "error": null,
+      "exchange_index": 0
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "messages_in": [],
+      "response": {},
+      "response_text": "Your order ORD-500 (Noise-Canceling Headphones, $199.99) was delivered on March 19, 2026. It should be at your delivery address. If you haven't received it, please check with your neighbors or building management. Is there anything else I can help with?",
+      "tool_calls": [],
+      "usage": {"input_tokens": 320, "output_tokens": 58, "total_tokens": 378},
+      "duration_ms": 620.0,
+      "error": null,
+      "exchange_index": 1
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "messages_in": [],
+      "response": {},
+      "response_text": "I'm sorry to hear the headphones didn't meet your expectations. Since the order has been delivered, I can process a refund for you. Let me take care of that now.",
+      "tool_calls": [{"tool_name": "process_refund", "tool_call_id": "call_refund_040", "arguments": {"order_id": "ORD-500", "amount": 199.99}, "result": null, "error": null}],
+      "usage": {"input_tokens": 450, "output_tokens": 65, "total_tokens": 515},
+      "duration_ms": 780.0,
+      "error": null,
+      "exchange_index": 2
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "messages_in": [],
+      "response": {},
+      "response_text": "Great news — your refund has been processed! Here's a summary:\n\n- Order: ORD-500 (Noise-Canceling Headphones)\n- Refund amount: $199.99\n- Reference number: REF-500\n\nYou'll receive the refund to your original payment method within 5-7 business days. Would you like help with anything else?",
+      "tool_calls": [],
+      "usage": {"input_tokens": 520, "output_tokens": 72, "total_tokens": 592},
+      "duration_ms": 690.0,
+      "error": null,
+      "exchange_index": 3
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "messages_in": [],
+      "response": {},
+      "response_text": "Yes, you will need to return the headphones. You should receive a prepaid return shipping label via email within the next 24 hours. Once you have the label, simply pack the headphones in their original packaging and drop off the package at any UPS location. The return must be shipped within 14 days.",
+      "tool_calls": [],
+      "usage": {"input_tokens": 610, "output_tokens": 60, "total_tokens": 670},
+      "duration_ms": 550.0,
+      "error": null,
+      "exchange_index": 4
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "messages_in": [],
+      "response": {},
+      "response_text": "You're welcome! To recap: your refund of $199.99 (REF-500) is being processed, and you'll get a return label by email shortly. If you have any other questions, don't hesitate to reach out. Have a great day!",
+      "tool_calls": [],
+      "usage": {"input_tokens": 690, "output_tokens": 50, "total_tokens": 740},
+      "duration_ms": 480.0,
+      "error": null,
+      "exchange_index": 5
+    }
+  ],
+  "total_duration_ms": 3630.0
+}
