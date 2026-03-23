@@ -18,6 +18,13 @@
 
 ---
 
+<p align="center">
+  <img src="docs/screenshots/screen-debug.jpg" alt="AgentHound Debugger" width="720" />
+</p>
+<p align="center">
+  <img src="docs/screenshots/screen-stats.jpg" alt="AgentHound Stats Dashboard" width="720" />
+</p>
+
 AgentHound is the pytest-native testing framework for AI agent workflows. It records real agent sessions, replays them deterministically, and lets you assert on behavior and correctness — all without making a single API call.
 
 ```bash
@@ -415,13 +422,6 @@ Features:
 - **Stats dashboard** — aggregate totals across all sessions: tokens, models, tags, providers
 - **Keyboard navigation** — arrow keys to step forward/back
 - **Live mode** — toggle live updates to see new sessions appear in real-time as your agent runs
-
-<p align="center">
-  <img src="docs/screenshots/screen-debug.jpg" alt="AgentHound Debugger" width="720" />
-</p>
-<p align="center">
-  <img src="docs/screenshots/screen-stats.jpg" alt="AgentHound Stats Dashboard" width="720" />
-</p>
 
 ### Live Proxy Mode
 
