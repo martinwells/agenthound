@@ -11,9 +11,8 @@
 </p>
 
 <p align="center">
-  <a href="https://pypi.org/project/agenthound/"><img src="https://img.shields.io/pypi/v/agenthound?color=blue" alt="PyPI"></a>
-  <a href="https://pypi.org/project/agenthound/"><img src="https://img.shields.io/pypi/pyversions/agenthound" alt="Python versions"></a>
-  <a href="https://github.com/agenthound/agenthound/blob/main/LICENSE"><img src="https://img.shields.io/github/license/agenthound/agenthound" alt="License"></a>
+  <a href="https://github.com/martinwells/agenthound/blob/main/LICENSE"><img src="https://img.shields.io/github/license/martinwells/agenthound" alt="License"></a>
+  <img src="https://img.shields.io/badge/python-3.9%2B-blue" alt="Python 3.9+">
 </p>
 
 ---
@@ -511,7 +510,7 @@ Your Agent Code
 ## Contributing
 
 ```bash
-git clone https://github.com/agenthound/agenthound.git
+git clone https://github.com/martinwells/agenthound.git
 cd agenthound
 pip install -e ".[dev]"
 pytest tests/ -v
