@@ -11,8 +11,8 @@
 </p>
 
 <p align="center">
-  <a href="https://pypi.org/project/agenthound/"><img src="https://img.shields.io/pypi/v/agenthound?color=blue" alt="PyPI"></a>
-  <a href="https://pypi.org/project/agenthound/"><img src="https://img.shields.io/pypi/pyversions/agenthound" alt="Python versions"></a>
+  <a href="https://pypi.org/project/agenthound/"><img src="https://img.shields.io/pypi/v/agenthound?color=blue&v=1" alt="PyPI"></a>
+  <a href="https://pypi.org/project/agenthound/"><img src="https://img.shields.io/pypi/pyversions/agenthound?v=1" alt="Python versions"></a>
   <a href="https://github.com/martinwells/agenthound/blob/main/LICENSE"><img src="https://img.shields.io/github/license/martinwells/agenthound" alt="License"></a>
 </p>
 
